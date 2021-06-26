@@ -1,13 +1,14 @@
-import React from 'react';
+import moment from 'moment';
+import { Component } from 'react';
 import openWeather from '../api/openWeather';
 import ClearDay from '../assets/icons/clear.svg';
-import ClearNight from '../assets/icons/nt_clear.svg';
-import FewCloudsDay from '../assets/icons/partlycloudy.svg';
-import FewCloudsNight from '../assets/icons/nt_partlycloudy.svg';
 import BrokenCloudsDay from '../assets/icons/cloudy.svg';
+import ClearNight from '../assets/icons/nt_clear.svg';
 import BrokenCloudsNight from '../assets/icons/nt_cloudy.svg';
-import LightRainDay from '../assets/icons/rain.svg';
+import FewCloudsNight from '../assets/icons/nt_partlycloudy.svg';
 import LightRainNight from '../assets/icons/nt_rain.svg';
+import FewCloudsDay from '../assets/icons/partlycloudy.svg';
+import LightRainDay from '../assets/icons/rain.svg';
 import WeatherContext from './WeatherContext';
 
 const WEATHER_CONDITION_ICONS = [
@@ -45,7 +46,7 @@ const WEATHER_CONDITION_ICONS = [
   },
 ];
 
-class WeatherProvider extends React.Component {
+class WeatherProvider extends Component {
   state = {
     forecasts: [],
     selectedForecast: null,
@@ -63,14 +64,18 @@ class WeatherProvider extends React.Component {
 
   buildForecasts(forecasts) {
     return forecasts.map((forecast) => {
+      const date = moment(forecast.dt_txt, 'YYYY-MM-DD hh:mm:ss');
       return {
         id: forecast.dt,
-        hour: forecast.dt_txt.substring(11, 16),
+        hour: date.format('hh:mm'),
         weatherIcon: WEATHER_CONDITION_ICONS.find((image) => image.id === forecast.weather[0].icon).source,
         temperature: this.fromKelvinToCelsius(forecast.main.temp),
         minTemperature: this.fromKelvinToCelsius(forecast.main.temp_min),
         maxTemperature: this.fromKelvinToCelsius(forecast.main.temp_max),
         weatherCondition: forecast.weather[0].main,
+        dayOfWeek: date.format('dddd'),
+        month: date.format('MMMM'),
+        dayNumber: date.date(),
       };
     });
   }

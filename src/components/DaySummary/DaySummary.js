@@ -95,8 +95,8 @@ const DaySummary = () => {
         </WeatherDetails>
         <WeatherLocalization>
           <span>Munich</span>
-          <HighlightText>Thursday</HighlightText>
-          <HighlightText>28. March</HighlightText>
+          <HighlightText>{currentForecast.dayOfWeek}</HighlightText>
+          <HighlightText>{`${currentForecast.dayNumber}. ${currentForecast.month}`}</HighlightText>
         </WeatherLocalization>
       </DaySummaryContainer>
     );
