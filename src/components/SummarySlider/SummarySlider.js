@@ -5,8 +5,6 @@ import SummaryCard from '../SummaryCard/SummaryCard';
 
 const SummarySliderContainer = styled.section`
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   overflow-x: scroll;
 
