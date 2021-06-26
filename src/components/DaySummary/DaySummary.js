@@ -1,5 +1,6 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
-import WeatherCloud from '../../assets/weather-cloud.svg';
+import WeatherContext from '../../context/WeatherContext';
 
 const DaySummaryContainer = styled.section`
   display: flex;
@@ -73,25 +74,35 @@ const HighlightText = styled.span`
 `;
 
 const DaySummary = () => {
-  return (
-    <DaySummaryContainer>
-      <WeatherIcon>
-        <img src={WeatherCloud} alt="Current Weather Icon" />
-      </WeatherIcon>
-      <WeatherDetails>
-        <WeatherCurrent>
-          <span>Cloudy</span>
-          <span>12° / 2°</span>
-        </WeatherCurrent>
-        <HighlightCurrentTemperature>2°</HighlightCurrentTemperature>
-      </WeatherDetails>
-      <WeatherLocalization>
-        <span>Munich</span>
-        <HighlightText>Thursday</HighlightText>
-        <HighlightText>28. March</HighlightText>
-      </WeatherLocalization>
-    </DaySummaryContainer>
-  );
+  const context = useContext(WeatherContext);
+
+  const render = () => {
+    const currentForecast = context.selectedForecast ? context.selectedForecast : context.forecasts[0];
+    if (!currentForecast) {
+      return null;
+    }
+    return (
+      <DaySummaryContainer>
+        <WeatherIcon>
+          <img src={currentForecast.weatherIcon} alt="Current Weather Icon" />
+        </WeatherIcon>
+        <WeatherDetails>
+          <WeatherCurrent>
+            <span>{currentForecast.weatherCondition}</span>
+            <span>{`${currentForecast.maxTemperature} / ${currentForecast.minTemperature}`}</span>
+          </WeatherCurrent>
+          <HighlightCurrentTemperature>{currentForecast.temperature}</HighlightCurrentTemperature>
+        </WeatherDetails>
+        <WeatherLocalization>
+          <span>Munich</span>
+          <HighlightText>Thursday</HighlightText>
+          <HighlightText>28. March</HighlightText>
+        </WeatherLocalization>
+      </DaySummaryContainer>
+    );
+  };
+
+  return render();
 };
 
 export default DaySummary;
