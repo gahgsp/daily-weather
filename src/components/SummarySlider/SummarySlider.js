@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import WeatherContext from '../../context/WeatherContext';
 import SummaryCard from '../SummaryCard/SummaryCard';
 
 const SummarySliderContainer = styled.section`
@@ -15,6 +16,8 @@ const SummarySliderContainer = styled.section`
 `;
 
 class SummarySlider extends React.Component {
+  static contextType = WeatherContext;
+
   constructor(props) {
     super(props);
 
@@ -55,35 +58,14 @@ class SummarySlider extends React.Component {
     });
   }
 
+  renderWeatherSummaryCards() {
+    return this.context.forecasts.map((forecast) => {
+      return <SummaryCard forecast={forecast} key={forecast.id} />;
+    });
+  }
+
   render() {
-    return (
-      <SummarySliderContainer ref={this.containerReference}>
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-        <SummaryCard />
-      </SummarySliderContainer>
-    );
+    return <SummarySliderContainer ref={this.containerReference}>{this.renderWeatherSummaryCards()}</SummarySliderContainer>;
   }
 }
 
