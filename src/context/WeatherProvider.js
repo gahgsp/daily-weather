@@ -9,6 +9,7 @@ import FewCloudsNight from '../assets/icons/nt_partlycloudy.svg';
 import LightRainNight from '../assets/icons/nt_rain.svg';
 import FewCloudsDay from '../assets/icons/partlycloudy.svg';
 import LightRainDay from '../assets/icons/rain.svg';
+import Loader from '../components/Loader/Loader';
 import WeatherContext from './WeatherContext';
 
 const WEATHER_CONDITION_ICONS = [
@@ -50,16 +51,18 @@ class WeatherProvider extends Component {
   state = {
     forecasts: [],
     selectedForecast: null,
+    isLoading: false,
   };
 
   async componentDidMount() {
+    this.setState({ isLoading: true });
     const response = await openWeather.get('/forecast', {
       params: {
         q: 'München,DE',
         appid: 'b6907d289e10d714a6e88b30761fae22',
       },
     });
-    this.setState({ forecasts: this.buildForecasts(response.data.list) });
+    this.setState({ forecasts: this.buildForecasts(response.data.list), isLoading: false });
   }
 
   buildForecasts(forecasts) {
@@ -96,7 +99,7 @@ class WeatherProvider extends Component {
           },
         }}
       >
-        {this.props.children}
+        {this.state.isLoading ? <Loader /> : this.props.children}
       </WeatherContext.Provider>
     );
   }
