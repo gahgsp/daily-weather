@@ -32,13 +32,16 @@ class SummarySlider extends React.Component {
 
   configureScrollListeners() {
     window.addEventListener('mousedown', (event) => {
+      if (!this.containerReference.current) {
+        return;
+      }
       this.isMouseDown = true;
       this.xStart = event.pageX - this.containerReference.current.offsetLeft;
       this.scrollLeft = this.containerReference.current.scrollLeft;
     });
 
     window.addEventListener('mousemove', (event) => {
-      if (!this.isMouseDown) {
+      if (!this.isMouseDown || !this.containerReference.current) {
         return;
       }
       event.preventDefault();
