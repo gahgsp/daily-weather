@@ -73,9 +73,17 @@ const HighlightText = styled.span`
   }
 `;
 
+/**
+ * The day summary component that provides information about the weather on a specific hour, day and month.
+ * @returns the day summary component.
+ */
 const DaySummary = () => {
   const context = useContext(WeatherContext);
 
+  /**
+   * Renders the component.
+   * @returns the component structure based on the selected forecast or null if a forecast was not selected in the slider.
+   */
   const render = () => {
     const currentForecast = context.selectedForecast ? context.selectedForecast : context.forecasts[0];
     if (!currentForecast) {

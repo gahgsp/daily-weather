@@ -26,9 +26,18 @@ const SummaryTemperature = styled.span`
   font-weight: 700;
 `;
 
+/**
+ * The summary card component that is shown in the slider component.
+ * @param forecast The forecast object to be shown by the summary card.
+ * @returns the summary card component that will be rendered on the page.
+ */
 const SummaryCard = ({ forecast }) => {
   const context = useContext(WeatherContext);
 
+  /**
+   * Wrapper function to handle the click event on a summary card component.
+   * @returns the function defined to be called when clicking on the component.
+   */
   const handleSelectionEvent = () => {
     return context.selectForecast(forecast);
   };

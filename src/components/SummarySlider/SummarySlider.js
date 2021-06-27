@@ -13,6 +13,10 @@ const SummarySliderContainer = styled.section`
   }
 `;
 
+/**
+ * The slider component that is responsible to show to the user the cards of the hourly forecasts.
+ * It's behavior is similar to a carousel.
+ */
 class SummarySlider extends React.Component {
   static contextType = WeatherContext;
 
@@ -30,6 +34,9 @@ class SummarySlider extends React.Component {
     this.configureScrollListeners();
   }
 
+  /**
+   * Configures the mouse listeners to the application in order to scroll between the forecast cards shown by the slider.
+   */
   configureScrollListeners() {
     window.addEventListener('mousedown', (event) => {
       if (!this.containerReference.current) {
@@ -59,6 +66,10 @@ class SummarySlider extends React.Component {
     });
   }
 
+  /**
+   * Builds a list of summary forecast cards that will be used as the children components of the slider.
+   * @returns A list of summary forecast cards components to be shown in the slider.
+   */
   renderWeatherSummaryCards() {
     return this.context.forecasts.map((forecast) => {
       return <SummaryCard forecast={forecast} key={forecast.id} />;

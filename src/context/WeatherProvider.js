@@ -15,6 +15,9 @@ import DateUtils from '../utils/DateUtils';
 import TemperatureUtils from '../utils/TemperatureUtils';
 import WeatherContext from './WeatherContext';
 
+/**
+ * The weather conditions icons that will be displayed on the page.
+ */
 const WEATHER_CONDITION_ICONS = [
   {
     id: '01d',
@@ -50,6 +53,9 @@ const WEATHER_CONDITION_ICONS = [
   },
 ];
 
+/**
+ * A wrapper component with the objective of providing the weather context.
+ */
 class WeatherProvider extends Component {
   state = {
     forecasts: [],
@@ -75,6 +81,11 @@ class WeatherProvider extends Component {
       });
   }
 
+  /**
+   * Build the list of forecasts with only the mapped properties needed in the application.
+   * @param forecasts The list of forecasts retrieved from the request.
+   * @returns A list of forecast objects with the properties that will be used in the application.
+   */
   buildForecasts(forecasts) {
     return forecasts.map((forecast) => {
       const date = moment(forecast.dt_txt, 'YYYY-MM-DD hh:mm:ss');
@@ -93,6 +104,10 @@ class WeatherProvider extends Component {
     });
   }
 
+  /**
+   * Handles the error state when the request to retrieve the data from the weather throws an error.
+   * @param error The error thrown by the request response.
+   */
   handleRequestError(error) {
     const requestError = {
       title: '',

@@ -113,6 +113,10 @@ const LoaderRoller = styled.div`
   }
 `;
 
+/**
+ * The loader state component responsible for presenting a feedback to the user that the information is still being loaded.
+ * @returns the loader state component.
+ */
 const Loader = () => {
   return (
     <LoaderContainer>

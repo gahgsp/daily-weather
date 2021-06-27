@@ -22,6 +22,12 @@ const Description = styled.h3`
   color: hsl(234, 14%, 70%);
 `;
 
+/**
+ * The error state component responsible for presenting the user a feedback that an error occurred.
+ * @param title The title of the error state page.
+ * @param description The description of the error state page.
+ * @returns the error state component.
+ */
 const Error = ({ title, description }) => {
   return (
     <ErrorContainer>
