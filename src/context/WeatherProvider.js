@@ -9,6 +9,7 @@ import FewCloudsNight from '../assets/icons/nt_partlycloudy.svg';
 import LightRainNight from '../assets/icons/nt_rain.svg';
 import FewCloudsDay from '../assets/icons/partlycloudy.svg';
 import LightRainDay from '../assets/icons/rain.svg';
+import Error from '../components/Error/Error';
 import Loader from '../components/Loader/Loader';
 import DateUtils from '../utils/DateUtils';
 import TemperatureUtils from '../utils/TemperatureUtils';
@@ -54,17 +55,24 @@ class WeatherProvider extends Component {
     forecasts: [],
     selectedForecast: null,
     isLoading: false,
+    error: null,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     this.setState({ isLoading: true });
-    const response = await openWeather.get('/forecast', {
-      params: {
-        q: 'München,DE',
-        appid: 'b6907d289e10d714a6e88b30761fae22',
-      },
-    });
-    this.setState({ forecasts: this.buildForecasts(response.data.list), isLoading: false });
+    openWeather
+      .get('/forecast', {
+        params: {
+          q: 'München,DE',
+          appid: 'b6907d289e10d714a6e88b30761fae22',
+        },
+      })
+      .then((response) => {
+        this.setState({ forecasts: this.buildForecasts(response.data.list), isLoading: false });
+      })
+      .catch((error) => {
+        this.handleRequestError(error);
+      });
   }
 
   buildForecasts(forecasts) {
@@ -85,6 +93,21 @@ class WeatherProvider extends Component {
     });
   }
 
+  handleRequestError(error) {
+    const requestError = {
+      title: '',
+      description: '',
+    };
+    if (!error.response) {
+      requestError.title = 'Network Error';
+      requestError.description = 'Please, check the CORS instructions in the README file.';
+    } else {
+      requestError.title = error.response.statusText;
+      requestError.description = error.message;
+    }
+    this.setState({ error: requestError, isLoading: false });
+  }
+
   render() {
     return (
       <WeatherContext.Provider
@@ -97,7 +120,8 @@ class WeatherProvider extends Component {
           },
         }}
       >
-        {this.state.isLoading ? <Loader /> : this.props.children}
+        {this.state.isLoading && !this.state.error ? <Loader /> : this.props.children}
+        {this.state.error ? <Error title={this.state.error.title} description={this.state.error.description} /> : null}
       </WeatherContext.Provider>
     );
   }
