@@ -7,6 +7,7 @@ const SummarySliderContainer = styled.section`
   display: flex;
   width: 100%;
   overflow-x: scroll;
+  padding: 2rem 0;
 
   ::-webkit-scrollbar {
     height: 0;
