@@ -10,6 +10,8 @@ import LightRainNight from '../assets/icons/nt_rain.svg';
 import FewCloudsDay from '../assets/icons/partlycloudy.svg';
 import LightRainDay from '../assets/icons/rain.svg';
 import Loader from '../components/Loader/Loader';
+import DateUtils from '../utils/DateUtils';
+import TemperatureUtils from '../utils/TemperatureUtils';
 import WeatherContext from './WeatherContext';
 
 const WEATHER_CONDITION_ICONS = [
@@ -70,21 +72,17 @@ class WeatherProvider extends Component {
       const date = moment(forecast.dt_txt, 'YYYY-MM-DD hh:mm:ss');
       return {
         id: forecast.dt,
-        hour: date.format('hh:mm'),
+        hour: DateUtils.retrieveHoursAndMinutesFromDate(date),
         weatherIcon: WEATHER_CONDITION_ICONS.find((image) => image.id === forecast.weather[0].icon).source,
-        temperature: this.fromKelvinToCelsius(forecast.main.temp),
-        minTemperature: this.fromKelvinToCelsius(forecast.main.temp_min),
-        maxTemperature: this.fromKelvinToCelsius(forecast.main.temp_max),
+        temperature: TemperatureUtils.fromKelvinToCelsius(forecast.main.temp),
+        minTemperature: TemperatureUtils.fromKelvinToCelsius(forecast.main.temp_min),
+        maxTemperature: TemperatureUtils.fromKelvinToCelsius(forecast.main.temp_max),
         weatherCondition: forecast.weather[0].main,
-        dayOfWeek: date.format('dddd'),
-        month: date.format('MMMM'),
-        dayNumber: date.date(),
+        dayOfWeek: DateUtils.retrieveDayOfWeekFromDate(date),
+        month: DateUtils.retrieveMonthFromDate(date),
+        dayNumber: DateUtils.retrieveDayFromDate(date),
       };
     });
-  }
-
-  fromKelvinToCelsius(temperature) {
-    return Math.trunc(Number(temperature) - 273.15) + '°';
   }
 
   render() {
