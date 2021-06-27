@@ -1,7 +1,14 @@
+import styled from 'styled-components';
 import DaySummary from '../components/DaySummary/DaySummary';
 import SummarySlider from '../components/SummarySlider/SummarySlider';
 import WeatherProvider from '../context/WeatherProvider';
-import './App.css';
+
+const MainContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+`;
 
 /**
  * The main container component for the application.
@@ -10,12 +17,12 @@ import './App.css';
  */
 const App = () => {
   return (
-    <div className="main">
+    <MainContainer>
       <WeatherProvider>
         <DaySummary />
         <SummarySlider />
       </WeatherProvider>
-    </div>
+    </MainContainer>
   );
 };
 
