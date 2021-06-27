@@ -74,7 +74,7 @@ class WeatherProvider extends Component {
         },
       })
       .then((response) => {
-        this.setState({ forecasts: this.buildForecasts(response.data.list), isLoading: false });
+        this.handleRequestSuccess(response);
       })
       .catch((error) => {
         this.handleRequestError(error);
@@ -102,6 +102,15 @@ class WeatherProvider extends Component {
         dayNumber: DateUtils.retrieveDayFromDate(date),
       };
     });
+  }
+
+  /**
+   * Handles the success state when the request returns correctly the forecast data.
+   * @param response The response from the request to the server.
+   */
+  handleRequestSuccess(response) {
+    this.setState({ forecasts: this.buildForecasts(response.data.list), isLoading: false });
+    this.setState({ selectedForecast: this.state.forecasts[0] });
   }
 
   /**
