@@ -85,7 +85,7 @@ const DaySummary = () => {
    * @returns the component structure based on the selected forecast or null if a forecast was not selected in the slider.
    */
   const render = () => {
-    const currentForecast = context.selectedForecast ? context.selectedForecast : context.forecasts[0];
+    const currentForecast = context.selectedForecast ? context.selectedForecast : context.selectForecast(context.forecasts[0]);
     if (!currentForecast) {
       return null;
     }
