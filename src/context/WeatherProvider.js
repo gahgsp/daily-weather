@@ -1,6 +1,6 @@
+import axios from 'axios';
 import moment from 'moment';
 import { Component } from 'react';
-import openWeather from '../api/openWeather';
 import ClearDay from '../assets/icons/clear.svg';
 import BrokenCloudsDay from '../assets/icons/cloudy.svg';
 import ClearNight from '../assets/icons/nt_clear.svg';
@@ -65,9 +65,16 @@ class WeatherProvider extends Component {
   };
 
   componentDidMount() {
+    this.retrieveWeatherForecast();
+  }
+
+  /**
+   * Retrieves the weather forecast data from the OpenWeatherMap API.
+   */
+  retrieveWeatherForecast() {
     this.setState({ isLoading: true });
-    openWeather
-      .get('/forecast', {
+    axios
+      .get('forecast', {
         params: {
           q: 'München,DE',
           appid: 'b6907d289e10d714a6e88b30761fae22',
@@ -123,8 +130,9 @@ class WeatherProvider extends Component {
       description: '',
     };
     if (!error.response) {
+      // If for some reason we do not receive a detailed error object, we present a default error state.
       requestError.title = 'Network Error';
-      requestError.description = 'Please, check the CORS instructions in the README file.';
+      requestError.description = 'An error occurred. Please, check your network connection.';
     } else {
       requestError.title = error.response.statusText;
       requestError.description = error.message;
