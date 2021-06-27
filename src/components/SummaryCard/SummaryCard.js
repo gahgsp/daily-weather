@@ -1,18 +1,33 @@
 import { useContext } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import WeatherContext from '../../context/WeatherContext';
 
 const SummaryCardContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem 2rem;
-  height: 20rem;
+  padding: 1rem 1rem;
+  margin: 0 0.6rem;
   cursor: pointer;
+  border-radius: 6px;
 
   img {
     width: 8rem;
   }
+
+  ${(props) =>
+    !props.currentSelected &&
+    css`
+      :hover {
+        background-color: hsl(235, 28%, 32%);
+      }
+    `}
+
+  ${(props) =>
+    props.currentSelected &&
+    css`
+      background-color: hsl(234, 20%, 40%);
+    `}
 `;
 
 const SummaryHour = styled.span`
@@ -43,7 +58,7 @@ const SummaryCard = ({ forecast }) => {
   };
 
   return (
-    <SummaryCardContainer onClick={() => handleSelectionEvent()}>
+    <SummaryCardContainer onClick={() => handleSelectionEvent()} currentSelected={forecast?.id === context?.selectedForecast?.id}>
       <SummaryHour>{forecast.hour}</SummaryHour>
       <img src={forecast.weatherIcon} alt="Current Weather Icon" />
       <SummaryTemperature>{forecast.temperature}</SummaryTemperature>
