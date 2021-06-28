@@ -69,9 +69,12 @@ class SummarySlider extends React.Component {
 
   /**
    * Builds a list of summary forecast cards that will be used as the children components of the slider.
-   * @returns A list of summary forecast cards components to be shown in the slider.
+   * @returns A list of summary forecast cards components to be shown in the slider or null if a context with a list of forecasts was not passed as parameter.
    */
   renderWeatherSummaryCards() {
+    if (!this.context || !this.context.forecasts) {
+      return null;
+    }
     return this.context.forecasts.map((forecast) => {
       return <SummaryCard forecast={forecast} key={forecast.id} />;
     });

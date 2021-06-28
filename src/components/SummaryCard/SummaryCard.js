@@ -57,13 +57,24 @@ const SummaryCard = ({ forecast }) => {
     return context.selectForecast(forecast);
   };
 
-  return (
-    <SummaryCardContainer onClick={() => handleSelectionEvent()} currentSelected={forecast?.id === context?.selectedForecast?.id}>
-      <SummaryHour>{forecast.hour}</SummaryHour>
-      <img src={forecast.weatherIcon} alt="Current Weather Icon" />
-      <SummaryTemperature>{forecast.temperature}</SummaryTemperature>
-    </SummaryCardContainer>
-  );
+  /**
+   * Renders the component.
+   * @returns the component structure based on the forecast definition or null if a forecast definition was not passed as parameter.
+   */
+  const render = () => {
+    if (!forecast) {
+      return null;
+    }
+    return (
+      <SummaryCardContainer onClick={() => handleSelectionEvent()} currentSelected={forecast?.id === context?.selectedForecast?.id}>
+        <SummaryHour>{forecast.hour}</SummaryHour>
+        <img src={forecast.weatherIcon} alt="Current Weather Icon" />
+        <SummaryTemperature>{forecast.temperature}</SummaryTemperature>
+      </SummaryCardContainer>
+    );
+  };
+
+  return render();
 };
 
 export default SummaryCard;
