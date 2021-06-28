@@ -121,14 +121,14 @@ const Loader = () => {
   return (
     <LoaderContainer>
       <LoaderRoller>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
       </LoaderRoller>
     </LoaderContainer>
   );
